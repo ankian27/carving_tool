@@ -1,0 +1,17 @@
+#!/usr/bin/python
+import re
+import fileinput
+import sys
+
+stat_ok=re.compile('^HTTP/1.1\s\d\d\d\s')
+stno=re.compile('\d{3}')
+crlf=re.compile('^\r\n$')
+with open(sys.argv[1], 'rb') as f:
+
+   for line in f:
+      pat = crlf.search(line)
+      if pat:
+        #pat1=stno.search(line)
+        print "Found"
+#  a="file_"+str(i)+".html"
+ # print a
