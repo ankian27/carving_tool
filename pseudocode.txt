@@ -1,0 +1,20 @@
+-> We only need to get the GET requests & HTTP 200 OK - 
+1-Check for GET and if it is true then check for status 200 OK.
+
+-> Content Type-1)Text/HTML or 2) Use "else" for this case.
+
+2-Text/HTML case-
+
+
+	A>>Read upto a blank line(Header end)
+		then read the next line which would be a hexadecimal no., convert it into a decimal no. then read upto that many bytes.
+	B>>Read the next line after the stipulated no. of bytes (A hex no. again), convert it into a decimal no. then read upto that many bytes.
+	
+Repeat the steps A and B until we encounter a 0 which means it has ended.<<There should be 1 or 2 blank lines after the 0>>
+
+3-Image/PNG case/else case-
+
+	A>>Read the line that says Content-Length and read that many bytes.
+
+All these steps 1,2 and 3 would be in a loop  
+
