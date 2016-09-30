@@ -3,7 +3,7 @@ import re
 import fileinput
 import sys
 
-stat_ok=re.compile('^HTTP/1.1\s\d\d\d\s')
+"""stat_ok=re.compile('^HTTP/1.1\s\d\d\d\s')
 stno=re.compile('\d{3}')
 crlf=re.compile('\r\n')
 hexbytes=re.compile('^[0-9a-fA-F]{1,3}\s$')
@@ -32,7 +32,7 @@ with open(sys.argv[1], 'rb') as f:
       	  print ll
       	new=f.readline()
       	#mew2=f.readline()
-      	print i
+      	print i"""
       	#print new
       	#print mew2
       #pat=True
@@ -57,3 +57,8 @@ with open(sys.argv[1], 'rb') as f:
          # print pat4.group(0)
 #  a="file_"+str(i)+".html"
  # print a
+filecount=1 
+filename="extract/"+"ssample"+str(filecount)+".txt"
+file=open(filename,'w')
+file.write("hahahahha")
+file.close()

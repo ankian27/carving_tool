@@ -30,8 +30,6 @@ cont_type=re.compile('Content-Type: ')
 
 cont_len=re.compile('Content-Length: ')
 
-trans_enc=re.compile('Transfer-Encoding: chunked')
-
 text_html=re.compile('text/html')
 
 image=re.compile('image')
@@ -45,10 +43,6 @@ appl_js=re.compile('application/x-javascript')
 appl_json=re.compile('application/json')
 
 get_flag=0
-
-rev_flag=0
-
-rev_flag_json=0
 
 file_count=1
 
@@ -169,8 +163,7 @@ with open(sys.argv[1], 'rb') as f:
 
                	  	        
                             break # we will have a break at the end of this else too
-                        break#the text has been read so breaking from the content-type search
-
+                        break
                       else:
                         pat10=appl_js.search(line_type)
 
@@ -186,45 +179,33 @@ with open(sys.argv[1], 'rb') as f:
                     
                             line_hex=f.readline()
                             if not line_hex: break
-                            pat_len=cont_len.search(line_hex)
-                            if pat_len:
-                              rev_flag=1
-                              pat8=leng.search(line_hex)
-                              no_bytes=int(pat8.group(0))                             
-                              
+
                             pat5=crlf.search(line_hex)
-                          
+                      
                             #if pat5:
-                          if rev_flag==0:
-                            line_hex=f.readline() # This is where it gets the first hex bytes string
+                          line_hex=f.readline() # This is where it gets the first hex bytes string
                           
 
-                            pat_hexno=hexbytes.search(line_hex)
+                          pat_hexno=hexbytes.search(line_hex)
 
-                            i=int(pat_hexno.group(0),16)
+                          i=int(pat_hexno.group(0),16)
 
-                            while i != 0: #read until it says 0
-                              body=f.read(i)
-                              """Output the body to a file"""
-                              file.write(body)
-                              eol=f.readline()# This would read the CRLF at the end of the given no. of bytes so next readline would actually be the hex no.
-                              line_hex=f.readline()
-                              pat5=hexbytes.search(line_hex)
-                              if pat5:
-                                i=int(pat5.group(0),16)
-                              else:
-                                break # breaking from counting because the required bytes have been read
-
-                          elif rev_flag==1:
-                             js_content=f.read(no_bytes)
-                             file.write(js_content)
-                             rev_flag=0
-
+                          while i != 0: #read until it says 0
+                            body=f.read(i)
+                            """Output the body to a file"""
+                            file.write(body)
+                            eol=f.readline()# This would read the CRLF at the end of the given no. of bytes so next readline would actually be the hex no.
+                            line_hex=f.readline()
+                            pat5=hexbytes.search(line_hex)
+                            if pat5:
+                              i=int(pat5.group(0),16)
+                            else:
+                              break # breaking from counting because the required bytes have been read
                           file.close()
                           file_count =file_count+1
-                          break#the text has been read so breaking from the content-type search
+
                         elif pat11:
-                            filename="extract/"+"outfile"+str(file_count)+".txt"
+                            filename="extract/"+"outfile"+str(file_count)+".json"
                             file=open(filename,'w')                        
                             while 1:
                           
@@ -233,7 +214,6 @@ with open(sys.argv[1], 'rb') as f:
                               if not line_len: break
 
                               pat7=cont_len.search(line_len) # Finding the "Content-length: " line
-                              pat_encode=trans_enc.search(line_len)
 
                               if pat7:
                                 pat8=leng.search(line_len)
@@ -251,38 +231,7 @@ with open(sys.argv[1], 'rb') as f:
                                 else:
                                   get_flag=0 
 
-                                break
-
-                              elif pat_encode:
-                                pat5=crlf.search(line_len)
-               	  	        while not pat5: #search till it finds the first carriage return
-               	  	
-                                  line_hex=f.readline()
-               	  	          if not line_hex: break
-
-               	  	          pat5=crlf.search(line_hex)
-               	  	  
-               	  	          #if pat5:
-                                line_hex=f.readline() # This is where it gets the first hex bytes string
-                                pat_hexno=hexbytes.search(line_hex)
-
-               	  	        i=int(pat_hexno.group(0),16)
-
-               	  	        while i != 0: #read until it says 0
-               	  		    body=f.read(i)
-               	  		    #Output the body to a file
-                                    file.write(body)
-               	  		    eol=f.readline()# This would read the CRLF at the end of the given no. of bytes so next readline would actually be the hex no.
-                                    line_hex=f.readline()
-               	  		    pat5=hexbytes.search(line_hex)
-               	  		    if pat5:
-               	  		 	    i=int(pat5.group(0),16)
-               	  		    else:
-               	  			    break # breaking from counting because the required bytes have been read
-                                file.close()
-                                file_count =file_count+1                                
-                                break 
-                            break#the text has been read so breaking from the content-type search                        
+                                break                             
                         else:
                           print "Error:Unknown Content-Type"      
                         break     #the text has been read so breaking from the content-type search                                                  

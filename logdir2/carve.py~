@@ -224,7 +224,7 @@ with open(sys.argv[1], 'rb') as f:
                           file_count =file_count+1
                           break#the text has been read so breaking from the content-type search
                         elif pat11:
-                            filename="extract/"+"outfile"+str(file_count)+".txt"
+                            filename="extract/"+"outfile"+str(file_count)+".json"
                             file=open(filename,'w')                        
                             while 1:
                           
