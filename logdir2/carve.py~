@@ -128,7 +128,7 @@ with open(sys.argv[1], 'rb') as f:
                	  	  
                	  	      #if pat5:
                             if htcl_flag:
-                              #print "hahaha"+str(no_bytes)
+                              print "hahaha"+str(no_bytes)
                               body=f.read(no_bytes)
                               file.write(body)
                               file.close()
@@ -136,7 +136,7 @@ with open(sys.argv[1], 'rb') as f:
                             else :
                               line_hex=f.readline() # This is where it gets the first hex bytes string
                               pat_hexno=hexbytes.search(line_hex)
-                              #print "hahahahah"
+                              print "hahahahah"
                	  	      i=int(pat_hexno.group(0),16)
 
                	  	      while i != 0: #read until it says 0
