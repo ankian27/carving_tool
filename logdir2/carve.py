@@ -12,7 +12,7 @@ import sys
 #i = int(s, 16)
 
 #This is compilation of some of the patterns to be used frequently
-get=re.compile('^GET')
+get=re.compile('(^GET|GET .* HTTP/1.[01])')
 
 stat_ok=re.compile('^HTTP/1.1 200 OK')
 
@@ -154,7 +154,17 @@ with open(sys.argv[1], 'rb') as f:
                             pat8=leng.search(line_len)
 
                             no_bytes=int(pat8.group(0))
-                            blank_line=f.readline() # reding the blankline after the "Content-length: " line 
+                            #blank_line=f.readline() # reding the blankline after the "Content-length: " line
+                            blank_line=f.readline()
+                            pat5=crlf.search(blank_line)
+
+                            while not pat5 :
+                              blank_line=f.readline()
+                              
+                              if not blank_line: break
+                              print blank_line,
+                              pat5=crlf.search(blank_line)
+                            #f.readline()   
                             image_content=f.read(no_bytes)   
                             file.write(image_content)
                             file.close()
